@@ -3,7 +3,8 @@ package controller
 import (
 	"net/http"
 
-	"github.com/Kantaro0829/microservice-engtube-in-go/userService/domain"
+	//"github.com/Kantaro0829/microservice-engtube-in-go/userService/domain"
+	model "github.com/Kantaro0829/microservice-engtube-in-go/userService/domain/model"
 	"github.com/Kantaro0829/microservice-engtube-in-go/userService/interfaces/database"
 	"github.com/Kantaro0829/microservice-engtube-in-go/userService/usecase"
 	"github.com/gin-gonic/gin"
@@ -23,9 +24,37 @@ func NewUserController(sqlHandler database.SqlHandler) *UserController {
 	}
 }
 
+// //ルーティングのハンドラ
+// func (controller *UserController) Create(c *gin.Context) {
+// 	u := domain.User{}
+// 	c.Bind(&u)
+// 	controller.Interactor.Add(u)
+// 	createdUsers := controller.Interactor.GetInfo()
+// 	c.JSON(201, createdUsers)
+// 	return
+// }
+
+// func (controller *UserController) GetUser() []domain.User {
+// 	res := controller.Interactor.GetInfo()
+// 	return res
+// }
+
+// func (controller *UserController) Delete(id string) {
+// 	controller.Interactor.Delete(id)
+// }
+
+// func (controller *UserController) Update(c *gin.Context) {
+// 	user := domain.User{}
+// 	if err := c.ShouldBindJSON(&user); err != nil {
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+// 		return
+// 	}
+// 	controller.Interactor.Update(user, user.Name)
+// }
+
 //ルーティングのハンドラ
 func (controller *UserController) Create(c *gin.Context) {
-	u := domain.User{}
+	u := model.User{}
 	c.Bind(&u)
 	controller.Interactor.Add(u)
 	createdUsers := controller.Interactor.GetInfo()
@@ -33,7 +62,7 @@ func (controller *UserController) Create(c *gin.Context) {
 	return
 }
 
-func (controller *UserController) GetUser() []domain.User {
+func (controller *UserController) GetUser() []model.User {
 	res := controller.Interactor.GetInfo()
 	return res
 }
@@ -43,7 +72,7 @@ func (controller *UserController) Delete(id string) {
 }
 
 func (controller *UserController) Update(c *gin.Context) {
-	user := domain.User{}
+	user := model.User{}
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

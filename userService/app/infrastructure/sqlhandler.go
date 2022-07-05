@@ -3,7 +3,9 @@ package infrastructure
 import (
 	"fmt"
 
-	"github.com/Kantaro0829/microservice-engtube-in-go/userService/domain"
+	//"github.com/Kantaro0829/microservice-engtube-in-go/userService/domain"
+	model "github.com/Kantaro0829/microservice-engtube-in-go/userService/domain/model"
+
 	"github.com/Kantaro0829/microservice-engtube-in-go/userService/interfaces/database"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -42,7 +44,18 @@ func (handler *SqlHandler) DeleteById(obj interface{}, id string) {
 	handler.db.Delete(obj, id)
 }
 
-func (handler *SqlHandler) UpdateById(obj domain.User, name string) {
+// func (handler *SqlHandler) UpdateById(obj domain.User, name string) {
+// 	//Gorm.Updateメソッド
+// 	handler.db.First(&obj)
+// 	fmt.Println("objの中身")
+// 	fmt.Println(obj.ID)
+// 	fmt.Println(obj.Name)
+// 	obj.Name = name
+// 	handler.db.Save(&obj)
+
+// }
+
+func (handler *SqlHandler) UpdateById(obj model.User, name string) {
 	//Gorm.Updateメソッド
 	handler.db.First(&obj)
 	fmt.Println("objの中身")
