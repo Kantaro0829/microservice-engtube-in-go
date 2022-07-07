@@ -11,3 +11,7 @@ Content-Type: application/json
 {"name":"テスト太郎","password":"password","email":"test2@gmail.com","apikey":"AIzaSyDKY9T6Z7XYPRlCx6fLdfeujLfmPnDkldk","last_video":"videoid"}
 
 ###
+
+GET http://localhost:3000/users
+
+###

@@ -55,6 +55,19 @@ func (handler *SqlHandler) Create(obj json.CreateUserRequest) errors.MyError {
 
 func (handler *SqlHandler) FindAll(obj interface{}) {
 	//Gorm.Findメソッド
+	// errors := errors.MyError{}
+	// res := response.UserRespnse{}
+	// if err := handler.db.Find(obj).Error; err != nil {
+	// 	errors.Error = err
+	// 	errors.Message = "なんかしらのエラー"
+
+	// 	res.Error = errors
+	// 	return res
+	// }
+	// errors.Error = nil
+	// errors.Message = ""
+	// res.Error = errors
+	// res.Data = []obj{}
 	handler.db.Find(obj)
 }
 

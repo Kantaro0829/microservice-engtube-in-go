@@ -15,7 +15,6 @@ func Init() {
 
 	router.GET("/users", func(c *gin.Context) {
 		users := userController.GetUser() //それぞれのルーティングごと関数を呼び出す
-		//c.Bind(&users)
 		c.JSON(http.StatusOK, gin.H{"a": users})
 		return
 	})
