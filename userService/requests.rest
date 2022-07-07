@@ -1,0 +1,13 @@
+POST http://localhost:3000/users/update/2 
+Content-Type: application/json
+
+{ "id":2, "name": "更新済み" }
+
+###
+
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{"name":"テスト太郎","password":"password","email":"test2@gmail.com","apikey":"AIzaSyDKY9T6Z7XYPRlCx6fLdfeujLfmPnDkldk","last_video":"videoid"}
+
+###

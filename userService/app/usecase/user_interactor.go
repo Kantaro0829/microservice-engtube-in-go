@@ -2,6 +2,8 @@ package usecase
 
 import (
 	//"github.com/Kantaro0829/microservice-engtube-in-go/userService/domain"
+	errors "github.com/Kantaro0829/microservice-engtube-in-go/userService/domain/error"
+	json "github.com/Kantaro0829/microservice-engtube-in-go/userService/domain/json"
 	model "github.com/Kantaro0829/microservice-engtube-in-go/userService/domain/model"
 )
 
@@ -29,8 +31,9 @@ type UserInteractor struct {
 	UserRepository UserRepository
 }
 
-func (interactor *UserInteractor) Add(u model.User) {
-	interactor.UserRepository.Store(u)
+func (interactor *UserInteractor) Add(u json.CreateUserRequest) errors.MyError {
+	tempError := interactor.UserRepository.Store(u)
+	return tempError
 }
 
 func (interactor *UserInteractor) GetInfo() []model.User {

@@ -4,8 +4,9 @@ import (
 	"fmt"
 
 	//"github.com/Kantaro0829/microservice-engtube-in-go/userService/domain"
+	errors "github.com/Kantaro0829/microservice-engtube-in-go/userService/domain/error"
+	json "github.com/Kantaro0829/microservice-engtube-in-go/userService/domain/json"
 	model "github.com/Kantaro0829/microservice-engtube-in-go/userService/domain/model"
-
 	"github.com/Kantaro0829/microservice-engtube-in-go/userService/interfaces/database"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -29,9 +30,27 @@ func NewSqlHandler() database.SqlHandler {
 //データベースが変わった場合や使用しているフレームワークが
 //変更された場合などはここを変更する
 //interface層内の./database配下にinterfaceを定義する
-func (handler *SqlHandler) Create(obj interface{}) {
+func (handler *SqlHandler) Create(obj json.CreateUserRequest) errors.MyError {
 	//Gorm.Createメソッド
-	handler.db.Create(obj)
+	userTable := model.User{}
+	userTable.Email = obj.Email
+	userTable.Name = obj.Name
+	userTable.Password = obj.Password
+	userTable.YoutubeApiKey = obj.YoutubeApiKey
+	userTable.LastWatchedVideoId = obj.LastWatchedVideoId
+	userTable.ID = 0
+	errors := errors.MyError{}
+
+	//handler.db.Create(&userTable)
+	if err := handler.db.Create(&userTable).Error; err != nil {
+		errors.Error = err
+		errors.Message = "メールアドレスの重複"
+		return errors
+	}
+
+	errors.Error = nil
+	errors.Message = ""
+	return errors
 }
 
 func (handler *SqlHandler) FindAll(obj interface{}) {

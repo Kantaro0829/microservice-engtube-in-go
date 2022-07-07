@@ -10,10 +10,10 @@ package model
 //     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 type User struct {
-	ID                 int    `json:"id" gorm:"primary_key"`
-	Name               string `json:"name"`
-	Password           []byte `json:"password"`
-	Email              string `json:"email" gorm:"unique"`
-	YoutubeApiKey      string `json:"apikey"`
+	ID                 int `gorm:"primary_key AUTO_INCREMENT"`
+	Name               string
+	Password           string
+	Email              string `gorm:"unique"`
+	YoutubeApiKey      string
 	LastWatchedVideoId string
 }

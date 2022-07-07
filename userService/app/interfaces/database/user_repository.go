@@ -2,6 +2,8 @@ package database
 
 import (
 	//"github.com/Kantaro0829/microservice-engtube-in-go/userService/domain"
+	errors "github.com/Kantaro0829/microservice-engtube-in-go/userService/domain/error"
+	json "github.com/Kantaro0829/microservice-engtube-in-go/userService/domain/json"
 	model "github.com/Kantaro0829/microservice-engtube-in-go/userService/domain/model"
 )
 
@@ -28,8 +30,9 @@ type UserRepository struct {
 // 	db.UpdateById(u, name)
 // }
 
-func (db *UserRepository) Store(u model.User) {
-	db.Create(&u)
+func (db *UserRepository) Store(u json.CreateUserRequest) errors.MyError {
+	errorTemp := db.Create(u)
+	return errorTemp
 }
 
 func (db *UserRepository) Select() []model.User {

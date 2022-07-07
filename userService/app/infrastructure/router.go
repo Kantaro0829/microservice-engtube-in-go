@@ -22,7 +22,6 @@ func Init() {
 
 	router.POST("/users", func(c *gin.Context) {
 		userController.Create(c) //それぞれのルーティングごと関数を呼び出す
-		c.JSON(http.StatusOK, gin.H{"message": "data was inserted"})
 		return
 	})
 
