@@ -1,7 +1,8 @@
 package main
 
 import (
-	"github.com/Kantaro0829/microservice-engtube-in-go/userService/domain"
+	//"github.com/Kantaro0829/microservice-engtube-in-go/userService/domain"
+	model "github.com/Kantaro0829/microservice-engtube-in-go/userService/domain/model"
 	"github.com/Kantaro0829/microservice-engtube-in-go/userService/infrastructure"
 
 	"github.com/gin-gonic/gin"
@@ -28,5 +29,5 @@ func dbinit() {
 	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 	}
-	db.Migrator().CreateTable(domain.User{})
+	db.Migrator().CreateTable(model.User{})
 }

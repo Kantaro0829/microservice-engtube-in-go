@@ -1,9 +1,13 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 
-	"github.com/Kantaro0829/microservice-engtube-in-go/userService/domain"
+	//"github.com/Kantaro0829/microservice-engtube-in-go/userService/domain"
+	json "github.com/Kantaro0829/microservice-engtube-in-go/userService/domain/json"
+	model "github.com/Kantaro0829/microservice-engtube-in-go/userService/domain/model"
+
 	"github.com/Kantaro0829/microservice-engtube-in-go/userService/interfaces/database"
 	"github.com/Kantaro0829/microservice-engtube-in-go/userService/usecase"
 	"github.com/gin-gonic/gin"
@@ -25,15 +29,28 @@ func NewUserController(sqlHandler database.SqlHandler) *UserController {
 
 //ルーティングのハンドラ
 func (controller *UserController) Create(c *gin.Context) {
-	u := domain.User{}
-	c.Bind(&u)
-	controller.Interactor.Add(u)
+
+	user := json.CreateUserRequest{}
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	tempError := controller.Interactor.Add(user)
+
+	if tempError.Error != nil {
+		c.JSON(http.StatusConflict, gin.H{"message": tempError.Error.Error(), "status": http.StatusConflict})
+		return
+	}
 	createdUsers := controller.Interactor.GetInfo()
-	c.JSON(201, createdUsers)
+	fmt.Println(createdUsers)
+
+	c.JSON(http.StatusOK, gin.H{"message": "data was inserted"})
 	return
+
 }
 
-func (controller *UserController) GetUser() []domain.User {
+func (controller *UserController) GetUser() []model.User {
 	res := controller.Interactor.GetInfo()
 	return res
 }
@@ -43,7 +60,7 @@ func (controller *UserController) Delete(id string) {
 }
 
 func (controller *UserController) Update(c *gin.Context) {
-	user := domain.User{}
+	user := model.User{}
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
