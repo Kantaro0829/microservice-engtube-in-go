@@ -17,19 +17,6 @@ type UserRepository struct {
 // 	db.Create(&u)
 // }
 
-// func (db *UserRepository) Select() []domain.User {
-// 	user := []domain.User{}
-// 	db.FindAll(&user)
-// 	return user
-// }
-// func (db *UserRepository) Delete(id string) {
-// 	user := []domain.User{}
-// 	db.DeleteById(&user, id)
-// }
-// func (db *UserRepository) Update(u domain.User, name string) {
-// 	db.UpdateById(u, name)
-// }
-
 func (db *UserRepository) Store(u json.CreateUserRequest) errors.MyError {
 	errorTemp := db.Create(u)
 	return errorTemp

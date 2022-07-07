@@ -39,9 +39,9 @@ func (handler *SqlHandler) Create(obj json.CreateUserRequest) errors.MyError {
 	userTable.YoutubeApiKey = obj.YoutubeApiKey
 	userTable.LastWatchedVideoId = obj.LastWatchedVideoId
 	userTable.ID = 0
+
 	errors := errors.MyError{}
 
-	//handler.db.Create(&userTable)
 	if err := handler.db.Create(&userTable).Error; err != nil {
 		errors.Error = err
 		errors.Message = "メールアドレスの重複"
@@ -62,17 +62,6 @@ func (handler *SqlHandler) DeleteById(obj interface{}, id string) {
 	//Gorm.Deleteメソッド
 	handler.db.Delete(obj, id)
 }
-
-// func (handler *SqlHandler) UpdateById(obj domain.User, name string) {
-// 	//Gorm.Updateメソッド
-// 	handler.db.First(&obj)
-// 	fmt.Println("objの中身")
-// 	fmt.Println(obj.ID)
-// 	fmt.Println(obj.Name)
-// 	obj.Name = name
-// 	handler.db.Save(&obj)
-
-// }
 
 func (handler *SqlHandler) UpdateById(obj model.User, name string) {
 	//Gorm.Updateメソッド
