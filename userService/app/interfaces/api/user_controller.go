@@ -38,8 +38,8 @@ func (controller *UserController) Create(c *gin.Context) {
 
 	tempError := controller.Interactor.Add(user)
 
-	if tempError.Error != nil {
-		c.JSON(http.StatusConflict, gin.H{"message": tempError.Error.Error(), "status": http.StatusConflict})
+	if tempError.Message != "" {
+		c.JSON(http.StatusConflict, gin.H{"message": tempError.Message, "status": http.StatusConflict})
 		return
 	}
 	createdUsers := controller.Interactor.GetInfo()
@@ -50,9 +50,15 @@ func (controller *UserController) Create(c *gin.Context) {
 
 }
 
-func (controller *UserController) GetUser() []model.User {
+func (controller *UserController) GetUser(c *gin.Context) {
 	res := controller.Interactor.GetInfo()
-	return res
+	if res.Error.Message != "" {
+		fmt.Println("error")
+		c.JSON(http.StatusBadRequest, res)
+		return
+	}
+	c.JSON(http.StatusOK, res)
+	return
 }
 
 func (controller *UserController) Delete(id string) {

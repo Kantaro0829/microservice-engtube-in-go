@@ -9,3 +9,8 @@ type UserRespnse struct {
 	Data  []model.User
 	Error errors.MyError
 }
+
+type AllUserResponse struct {
+	Data  interface{}
+	Error errors.MyError
+}

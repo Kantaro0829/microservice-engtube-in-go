@@ -5,6 +5,7 @@ import (
 	errors "github.com/Kantaro0829/microservice-engtube-in-go/userService/domain/error"
 	json "github.com/Kantaro0829/microservice-engtube-in-go/userService/domain/json"
 	model "github.com/Kantaro0829/microservice-engtube-in-go/userService/domain/model"
+	response "github.com/Kantaro0829/microservice-engtube-in-go/userService/domain/response"
 )
 
 type UserInteractor struct {
@@ -16,7 +17,11 @@ func (interactor *UserInteractor) Add(u json.CreateUserRequest) errors.MyError {
 	return tempError
 }
 
-func (interactor *UserInteractor) GetInfo() []model.User {
+// func (interactor *UserInteractor) GetInfo() []model.User {
+// 	return interactor.UserRepository.Select()
+// }
+
+func (interactor *UserInteractor) GetInfo() response.AllUserResponse {
 	return interactor.UserRepository.Select()
 }
 

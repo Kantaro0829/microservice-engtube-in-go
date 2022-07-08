@@ -2,11 +2,13 @@ package infrastructure
 
 import (
 	"fmt"
+	"net/http"
 
 	//"github.com/Kantaro0829/microservice-engtube-in-go/userService/domain"
 	errors "github.com/Kantaro0829/microservice-engtube-in-go/userService/domain/error"
 	json "github.com/Kantaro0829/microservice-engtube-in-go/userService/domain/json"
 	model "github.com/Kantaro0829/microservice-engtube-in-go/userService/domain/model"
+	response "github.com/Kantaro0829/microservice-engtube-in-go/userService/domain/response"
 	"github.com/Kantaro0829/microservice-engtube-in-go/userService/interfaces/database"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -43,17 +45,16 @@ func (handler *SqlHandler) Create(obj json.CreateUserRequest) errors.MyError {
 	errors := errors.MyError{}
 
 	if err := handler.db.Create(&userTable).Error; err != nil {
-		errors.Error = err
-		errors.Message = "メールアドレスの重複"
+		errors.Message = err.Error()
+		errors.Status = http.StatusConflict
 		return errors
 	}
 
-	errors.Error = nil
 	errors.Message = ""
 	return errors
 }
 
-func (handler *SqlHandler) FindAll(obj interface{}) {
+func (handler *SqlHandler) FindAll(obj interface{}) response.AllUserResponse {
 	//Gorm.Findメソッド
 	// errors := errors.MyError{}
 	// res := response.UserRespnse{}
@@ -68,7 +69,22 @@ func (handler *SqlHandler) FindAll(obj interface{}) {
 	// errors.Message = ""
 	// res.Error = errors
 	// res.Data = []obj{}
-	handler.db.Find(obj)
+	allUserInfo := response.AllUserResponse{}
+	errorInfo := errors.MyError{}
+	if err := handler.db.Find(obj).Error; err != nil {
+		errorInfo.Message = "値を取得出来ませんでした。"
+		allUserInfo.Data = nil
+		allUserInfo.Error = errorInfo
+		return allUserInfo
+	}
+	fmt.Println("loggggggggggggggggggggggggggggg")
+	fmt.Println(obj)
+
+	errorInfo.Status = http.StatusOK
+	errorInfo.Message = ""
+	allUserInfo.Data = obj
+	allUserInfo.Error = errorInfo
+	return allUserInfo
 }
 
 func (handler *SqlHandler) DeleteById(obj interface{}, id string) {

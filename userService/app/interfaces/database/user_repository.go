@@ -5,6 +5,7 @@ import (
 	errors "github.com/Kantaro0829/microservice-engtube-in-go/userService/domain/error"
 	json "github.com/Kantaro0829/microservice-engtube-in-go/userService/domain/json"
 	model "github.com/Kantaro0829/microservice-engtube-in-go/userService/domain/model"
+	response "github.com/Kantaro0829/microservice-engtube-in-go/userService/domain/response"
 )
 
 type UserRepository struct {
@@ -22,11 +23,18 @@ func (db *UserRepository) Store(u json.CreateUserRequest) errors.MyError {
 	return errorTemp
 }
 
-func (db *UserRepository) Select() []model.User {
+// func (db *UserRepository) Select() []model.User {
+// 	user := []model.User{}
+// 	db.FindAll(user) //&
+// 	return user
+// }
+
+func (db *UserRepository) Select() response.AllUserResponse {
 	user := []model.User{}
-	db.FindAll(&user)
-	return user
+	result := db.FindAll(&user)
+	return result
 }
+
 func (db *UserRepository) Delete(id string) {
 	user := []model.User{}
 	db.DeleteById(&user, id)
